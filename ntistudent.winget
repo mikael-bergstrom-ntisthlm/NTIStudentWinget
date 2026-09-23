@@ -1,0 +1,155 @@
+# Created with WinGet Studio - v0.100.329.0
+
+$schema: https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
+metadata:
+  winget:
+    processor:
+      identifier: dscv3
+resources:
+# Fixing PowerShell 7
+  - name: UninstallUserScopedPowerShell
+    type: Microsoft.DSC.Transitional/RunCommandOnSet
+    metadata:
+      description: Uninstalls the user scoped Powershell, if it exists
+    properties:
+      executable: winget
+      arguments:
+        - uninstall
+        - --id
+        - Microsoft.PowerShell
+        - --scope
+        - user
+
+  - name: ForcePowerShellMSIInstall
+    type: Microsoft.DSC.Transitional/RunCommandOnSet
+    dependsOn:
+      - UninstallUserScopedPowerShell
+    metadata:
+      description: Bypasses MSIX store packages and forces standard Program Files placement for Powershell
+    properties:
+      executable: winget
+      arguments:
+        - install
+        - --id
+        - Microsoft.PowerShell
+        - --scope
+        - machine
+        - --installer-type
+        - wix
+        - --accept-source-agreements
+        - --accept-package-agreements
+
+  # PS Module setup
+  - name: MicrosoftWindowsDeveloperModule
+    type: Microsoft.DSC.Transitional/RunCommandOnSet # Windows developer module
+    dependsOn:
+    - ForcePowerShellMSIInstall
+    properties:
+      executable: C:\Program Files\PowerShell\7\pwsh.exe
+      arguments:
+        "0": -NoProfile
+        "1": -NoLogo
+        "2": -Command
+        # -Prerelease is required because Microsoft.Windows.Developer has no stable release yet
+        "3": >-
+          if (-not (Get-Module -ListAvailable -Name Microsoft.Windows.Developer))
+          { Install-PSResource -Name Microsoft.Windows.Developer -Prerelease
+          -TrustRepository -AcceptLicense }
+        treatAsArray: true
+    metadata:
+      description: Ensure Microsoft.Windows.Developer module is installed
+
+  - name: VsCodeModule
+    type: Microsoft.DSC.Transitional/RunCommandOnSet # VSCode PS module
+    dependsOn:
+    - ForcePowerShellMSIInstall
+    properties:
+      executable: C:\Program Files\PowerShell\7\pwsh.exe
+      arguments:
+        "0": -NoProfile
+        "1": -NoLogo
+        "2": -Command
+        # -Prerelease is required because Microsoft.Windows.Developer has no stable release yet
+        "3": >-
+          if (-not (Get-Module -ListAvailable -Name Microsoft.VSCode.Dsc))
+          { Install-PSResource -Name Microsoft.VSCode.Dsc -Prerelease
+          -TrustRepository -AcceptLicense }
+        treatAsArray: true
+    metadata:
+      description: Ensure Microsoft.VSCode.Dsc module is installed
+
+  # Windows settings
+  - name: ExplorerSettings
+    type: Microsoft.Windows.Developer/WindowsExplorer
+    dependsOn:
+      - MicrosoftWindowsDeveloperModule
+    properties:
+      FileExtensions: true
+      HiddenFiles: true
+    metadata:
+      description: Show hidden files & file extensions
+
+# VS Code
+  - name: VSCode
+    type: Microsoft.DSC.Transitional/RunCommandOnSet
+    metadata:
+      description: Installs VSCode with sensible defaults
+    properties:
+      executable: winget
+      arguments:
+        - install
+        - --id
+        - Microsoft.VisualStudioCode
+        - --force
+        - --override
+        - '/SILENT /mergetasks="!runcode,addcontextmenufiles,addcontextmenufolders"'
+
+  # Winget packages
+  - name: DotnetSDK
+    type: Microsoft.WinGet/Package # Dotnet SDK
+    properties:
+      id: Microsoft.DotNet.SDK.10
+      source: winget
+      useLatest: true
+    metadata:
+      description: Install Dotnet SDK 10
+
+  - name: Git
+    type: Microsoft.WinGet/Package # Git
+    properties:
+      id: Git.Git
+      source: winget
+      useLatest: true
+    metadata:
+      description: Install Git
+
+# VS Code extensions
+
+  - name: VSCodeCSDev
+    type: Microsoft.VSCode.Dsc/VSCodeExtension # C# Dev Kit
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: ms-dotnettools.csdevkit
+    metadata:
+      description: Install vscode C# extension
+
+  - name: VSCodeGitignore
+    type: Microsoft.VSCode.Dsc/VSCodeExtension # Gitignore
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: codezombiech.gitignore
+    metadata:
+      description: Install Gitignore extension
+
+  - name: VSCodeNugetGallery
+    type: Microsoft.VSCode.Dsc/VSCodeExtension # NuGet Gallery
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: patcx.vscode-nuget-gallery
+    metadata:
+      description: Install NuGet Gallery extension
+
+
