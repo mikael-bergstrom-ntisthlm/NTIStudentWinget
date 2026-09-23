@@ -84,8 +84,9 @@ resources:
     dependsOn:
       - MicrosoftWindowsDeveloperModule
     properties:
-      FileExtensions: true
-      HiddenFiles: true
+      FileExtensions: Show
+      HiddenFiles: Show
+      RestartExplorer: true
     metadata:
       description: Show hidden files & file extensions
 
@@ -115,13 +116,24 @@ resources:
       description: Install Dotnet SDK 10
 
   - name: Git
-    type: Microsoft.WinGet/Package # Git
+    type: Microsoft.WinGet/Package
     properties:
       id: Git.Git
       source: winget
       useLatest: true
     metadata:
       description: Install Git
+
+  - name: OBS Studio
+    type: Microsoft.WinGet/Package
+    properties:
+      id: OBSProject.OBSStudio
+      source: winget
+      useLatest: true
+    metadata:
+      description: Install OBS Studio
+
+
 
 # VS Code extensions
 
@@ -135,7 +147,7 @@ resources:
       description: Install vscode C# extension
 
   - name: VSCodeGitignore
-    type: Microsoft.VSCode.Dsc/VSCodeExtension # Gitignore
+    type: Microsoft.VSCode.Dsc/VSCodeExtension
     dependsOn:
       - VSCodeModule
     properties:
@@ -144,7 +156,7 @@ resources:
       description: Install Gitignore extension
 
   - name: VSCodeNugetGallery
-    type: Microsoft.VSCode.Dsc/VSCodeExtension # NuGet Gallery
+    type: Microsoft.VSCode.Dsc/VSCodeExtension
     dependsOn:
       - VSCodeModule
     properties:
