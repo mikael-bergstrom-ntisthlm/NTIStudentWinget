@@ -124,7 +124,7 @@ resources:
     metadata:
       description: Install Git
 
-  - name: OBS Studio
+  - name: OBSStudio
     type: Microsoft.WinGet/Package
     properties:
       id: OBSProject.OBSStudio
@@ -133,7 +133,14 @@ resources:
     metadata:
       description: Install OBS Studio
 
-
+  - name: VCRedist2015
+    type: Microsoft.WinGet/Package
+    properties:
+      id: Microsoft.VCRedist.2015+.x64
+      source: winget
+      useLatest: true
+    metadata:
+      description: Install Microsoft Visual C++ 2015+ redist package
 
 # VS Code extensions
 
