@@ -10,13 +10,16 @@ winget configure -f https://raw.githubusercontent.com/mikael-bergstrom-ntisthlm/
 
 **Installs:**
 - Powershell 7 (In Program Files)
-- OBS Studio
+- [OBS Studio](https://obsproject.com/)
 - .NET SDK 10
 - Visual Studio Code (including context menus)
 - Some Visual Studio Code extensions
-  - C# Dev Kit
-  - Gitignore
-  - NuGet Gallery
+  - [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+  - [Gitignore](https://marketplace.visualstudio.com/items?itemName=codezombiech.gitignore)
+  - [NuGet Gallery](https://marketplace.visualstudio.com/items?itemName=patcx.vscode-nuget-gallery)
+  - [Hide Comments](https://marketplace.visualstudio.com/items?itemName=eliostruyf.vscode-hide-comments)
+  - [Thunder Client](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client)
+  - [Visual Code Icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)
 
 **Windows Explorer settings:**
 - Show hidden files

@@ -171,8 +171,34 @@ resources:
     metadata:
       description: Install NuGet Gallery extension
 
-# VS Code user settings
+  - name: VSCodeHideComments
+    type: Microsoft.VSCode.Dsc/VSCodeExtension
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: eliostruyf.vscode-hide-comments
+    metadata:
+      description: Install NuGet Gallery extension
 
+  - name: VSCodeThunderClient
+    type: Microsoft.VSCode.Dsc/VSCodeExtension
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: rangav.vscode-thunder-client
+    metadata:
+      description: Install NuGet Gallery extension
+
+  - name: VSCodeIcons
+    type: Microsoft.VSCode.Dsc/VSCodeExtension
+    dependsOn:
+      - VSCodeModule
+    properties:
+      name: vscode-icons-team.vscode-icons
+    metadata:
+      description: Install NuGet Gallery extension
+
+# VS Code user settings
   - type: Microsoft.DSC.Transitional/WindowsPowerShellScript
     name: VSCodeCustomSettings
     dependsOn:
