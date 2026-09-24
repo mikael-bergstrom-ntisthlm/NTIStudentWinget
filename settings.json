@@ -1,0 +1,6 @@
+{
+  "chat.commandCenter.enabled": false,
+  "csharp.debug.console": "externalTerminal",
+  "chat.disableAIFeatures": true,
+  "csharp.referencesCodeLens.enabled": false
+}
