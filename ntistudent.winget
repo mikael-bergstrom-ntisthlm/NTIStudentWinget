@@ -171,4 +171,25 @@ resources:
     metadata:
       description: Install NuGet Gallery extension
 
+# VS Code user settings
 
+  - type: Microsoft.DSC.Transitional/WindowsPowerShellScript
+    name: VSCodeCustomSettings
+    dependsOn:
+      - VSCode
+    metadata:
+      description: Download user settings file for VS Code
+    properties:
+      TestScript: |
+        $targetPath = "$env:APPDATA\Code\User\settings.json"
+        return (Test-Path $targetPath)
+      SetScript: |
+        $dir = "$env:APPDATA\Code\User"
+        $url = "https://raw.githubusercontent.com/mikael-bergstrom-ntisthlm/NTIStudentWinget/refs/heads/main/settings.json"
+        if (!(Test-Path $dir)) {
+          New-Item -ItemType Directory -Path $dir -Force | Out-Null
+        }
+        Invoke-WebRequest -Uri $url -OutFile "$dir\settings.json" -UseBasicParsing
+      GetScript: |
+        $targetPath = "$env:APPDATA\Code\User\settings.json"
+        return @{ Result = (Test-Path $targetPath) }
