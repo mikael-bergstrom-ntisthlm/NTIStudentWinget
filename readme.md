@@ -1,10 +1,16 @@
+AI Disclusure: None of this was vibe coded, but I did use Gemini to dig out some of the options and settings. Winget configurations are incredibly badly documented and it's pretty hard to find reliable information.
+
 # Installing
 
 In an administrative Terminal/Powershell (easiest: Right click Windows icon, choose Terminal (Admin)):
 
 ```
+winget configure --enable
+
 winget configure -f https://raw.githubusercontent.com/mikael-bergstrom-ntisthlm/NTIStudentWinget/refs/heads/main/ntistudent.winget
 ```
+
+After a little while, it will ask if you're sure you want to apply this configuration. Press 'y'.
 
 # What it does
 
