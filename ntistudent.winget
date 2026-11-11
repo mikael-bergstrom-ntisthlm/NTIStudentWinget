@@ -109,11 +109,11 @@ resources:
   - name: DotnetSDK
     type: Microsoft.WinGet/Package # Dotnet SDK
     properties:
-      id: Microsoft.DotNet.SDK.10
+      id: Microsoft.DotNet.SDK.11
       source: winget
       useLatest: true
     metadata:
-      description: Install Dotnet SDK 10
+      description: Install Dotnet SDK 11
 
   - name: Git
     type: Microsoft.WinGet/Package

@@ -17,7 +17,7 @@ After a little while, it will ask if you're sure you want to apply this configur
 **Installs:**
 - Powershell 7 (In Program Files)
 - [OBS Studio](https://obsproject.com/)
-- .NET SDK 10
+- .NET SDK 11
 - Visual Studio Code (including context menus)
 - Some Visual Studio Code extensions
   - [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
